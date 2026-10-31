@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>AgriShop</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;600;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <header class="top">
+    <div class="brand">🌾 AgriShop</div>
+    <div class="tools">
+      <div class="langs" role="group" aria-label="Language">
+        <button data-lang="en">English</button>
+        <button data-lang="mr">मराठी</button>
+        <button data-lang="hi">हिन्दी</button>
+      </div>
+      <button id="font-btn" class="size" aria-label="Change text size">A+</button>
+    </div>
+  </header>
+ 
+  <nav class="tabs" aria-label="Main">
+    <button class="tab" data-view="home"><span class="ico">🏠</span><span data-i18n="nav_home">Home</span></button>
+    <button class="tab" data-view="shop"><span class="ico">🛒</span><span data-i18n="nav_shop">Shop</span></button>
+    <button class="tab" data-view="orders"><span class="ico">📋</span><span data-i18n="nav_orders">Orders</span></button>
+    <button class="tab" data-view="manage"><span class="ico">⚙️</span><span data-i18n="nav_manage">Manage</span></button>
+  </nav>
+ 
+  <main>
+    <!-- Home -->
+    <section id="home" class="view">
+      <div class="hello">
+        <h1 data-i18n="hello">Namaste, welcome back</h1>
+        <div class="stats">
+          <div><b id="st-products">0</b><span data-i18n="p_products">Products</span></div>
+          <div><b id="st-customers">0</b><span data-i18n="p_farmers">Farmers</span></div>
+          <div><b id="st-orders">0</b><span data-i18n="p_orders">Orders</span></div>
+        </div>
+      </div>
+      <div class="two">
+        <div class="panel">
+          <h2>⚠️ <span data-i18n="low">Running low</span></h2>
+          <p class="hint" data-i18n="low_hint">Fewer than 50 left</p>
+          <ul id="low-stock" class="plain"></ul>
+        </div>
+        <div class="panel">
+          <h2>📊 <span data-i18n="revenue">Sales by category</span></h2>
+          <div id="revenue"></div>
+        </div>
+      </div>
+    </section>
+ 
+    <!-- Shop -->
+    <section id="shop" class="view">
+      <input id="search" type="search" class="searchbox" data-i18n-ph="search" placeholder="Search seeds, fertilizer…">
+      <div id="chips" class="chips" role="group"></div>
+      <div id="grid" class="grid"></div>
+    </section>
+ 
+    <!-- Orders -->
+    <section id="orders" class="view">
+      <div id="order-list" class="orders"></div>
+    </section>
+ 
+    <!-- Manage -->
+    <section id="manage" class="view">
+      <div class="two">
+        <form id="product-form" class="panel stack">
+          <h2>📦 <span data-i18n="add_product">Add a product</span></h2>
+          <label>Name <input name="name" required maxlength="80"></label>
+          <label>Category <select name="category_id" id="p-category" required></select></label>
+          <label>Supplier <select name="supplier_id" id="p-supplier" required></select></label>
+          <div class="pair">
+            <label>Price (₹) <input name="price" type="number" min="0.01" step="0.01" required></label>
+            <label>Stock <input name="stock" type="number" min="0" required></label>
+          </div>
+          <label>Unit <input name="unit" placeholder="bag, packet, kit" required maxlength="15"></label>
+          <button class="primary" type="submit" data-i18n="save">Save</button>
+        </form>
+        <form id="customer-form" class="panel stack">
+          <h2>👨‍🌾 <span data-i18n="new_farmer">Register a farmer</span></h2>
+          <label>Full name <input name="name" required maxlength="60"></label>
+          <label>Phone <input name="phone" required pattern="[6-9][0-9]{9}" title="10-digit mobile number" maxlength="10" inputmode="numeric"></label>
+          <label>Village / town <input name="village" required></label>
+          <label>District <input name="district" required></label>
+          <button class="primary" type="submit" data-i18n="save">Save</button>
+        </form>
+      </div>
+    </section>
+  </main>
+ 
+  <button id="cart-fab" class="fab" hidden>
+    🛒 <span data-i18n="cart_btn">View cart</span> · <b id="fab-count">0</b> · <b id="fab-total">₹0</b>
+  </button>
+  <div id="scrim" hidden></div>
+ 
+  <aside id="cart" aria-label="Cart">
+    <div class="cart-head">
+      <h2>🛒 <span data-i18n="cart">Your cart</span></h2>
+      <button id="cart-close" class="close" aria-label="Close">✕</button>
+    </div>
+    <label class="stack"><span data-i18n="farmer">Farmer</span><select id="o-customer"></select></label>
+    <div id="cart-items"></div>
+    <h3 data-i18n="pay">How will you pay?</h3>
+    <div id="pay" class="pay">
+      <button data-pay="UPI">📱 UPI</button>
+      <button data-pay="Cash">💵 <span data-i18n="pay_Cash">Cash</span></button>
+      <button data-pay="Card">💳 <span data-i18n="pay_Card">Card</span></button>
+      <button data-pay="Net Banking">🏦 <span data-i18n="pay_Net Banking">Net Banking</span></button>
+    </div>
+    <div class="total"><span data-i18n="total">Total</span><b id="cart-total">₹0</b></div>
+    <button id="place" class="primary big" data-i18n="place">Place order</button>
+  </aside>
+ 
+  <div id="toast" role="status"></div>
+  <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>
